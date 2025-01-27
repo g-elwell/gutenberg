@@ -103,6 +103,10 @@ export default function QueryContent( {
 		if ( isSingular && query.inherit ) {
 			newQuery.inherit = false;
 		}
+		// In singular templates, we want to exclude the current post from the query by default.
+		if ( isSingular && ! query.inherit && query.excludeCurrent === null ) {
+			newQuery.excludeCurrent = true;
+		}
 		if ( !! Object.keys( newQuery ).length ) {
 			__unstableMarkNextChangeAsNotPersistent();
 			updateQuery( newQuery );
@@ -110,6 +114,7 @@ export default function QueryContent( {
 	}, [
 		query.perPage,
 		query.inherit,
+		query.excludeCurrent,
 		postsPerPage,
 		inherit,
 		isSingular,
